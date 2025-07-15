@@ -42,6 +42,10 @@
 extern "C" {
 #endif
 
+#ifndef _U_
+#define _U_
+#endif
+
 #ifdef HAVE_LIBDLPI
 #include <libdlpi.h>
 #endif
@@ -446,7 +450,7 @@ int	yylex(void);
 int	pcap_offline_read(pcap_t *, int, pcap_handler, u_char *);
 int	pcap_read(pcap_t *, int cnt, pcap_handler, u_char *);
 
-#ifndef HAVE_STRLCPY
+#if !defined(HAVE_STRLCPY) && !defined(__APPLE__)
 #define strlcpy(x, y, z) \
 	(strncpy((x), (y), (z)), \
 	 ((z) <= 0 ? 0 : ((x)[(z) - 1] = '\0')), \
@@ -460,7 +464,7 @@ int	pcap_read(pcap_t *, int cnt, pcap_handler, u_char *);
 extern int snprintf (char *, size_t, const char *, ...);
 #endif
 
-#if !defined(HAVE_VSNPRINTF)
+#if !defined(HAVE_VSNPRINTF) && !defined(__APPLE__)
 #define vsnprintf pcap_vsnprintf
 extern int vsnprintf (char *, size_t, const char *, va_list ap);
 #endif
