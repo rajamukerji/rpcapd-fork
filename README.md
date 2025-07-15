@@ -22,7 +22,8 @@ Building
 The rpcapd source code is a few levels deep in the winpcap folder:
 [winpcap/wpcap/libpcap/rpcapd/](winpcap/wpcap/libpcap/rpcapd/)
 
-To build, first install gcc and libpcap-dev:
+### Linux
+To build on Linux, first install gcc and libpcap-dev:
 
     sudo apt-get install build-essential libpcap-dev
 
@@ -30,12 +31,22 @@ Then make in the top-level folder:
 
     make
 
-The resulting binary, `rpcapd`, will be in the rpcapd directory:
-[winpcap/wpcap/libpcap/rpcapd/](winpcap/wpcap/libpcap/rpcapd/)
+### macOS
+To build on macOS, first install libpcap (if not already available):
 
+    brew install libpcap
+
+Then make in the top-level folder with the OSX platform:
+
+    make PLATFORM=osx
+
+### Windows
 (Optional) To build the windows binary, install x86_64-w64-mingw32-gcc (or
 edit vars.mk).  Running `make` will output rpcapd.exe in the rpcapd directory
 in addition to the linux binary.
+
+The resulting binary, `rpcapd`, will be in the rpcapd directory:
+[winpcap/wpcap/libpcap/rpcapd/](winpcap/wpcap/libpcap/rpcapd/)
 
 
 ExtraHop Modifications
