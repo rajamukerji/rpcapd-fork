@@ -6,7 +6,7 @@ include ../../../../vars.mk
 CFLAGS		= -DHAVE_REMOTE -DHAVE_SNPRINTF -D_GNU_SOURCE=1 -O3 -g
 LINUXCFLAGS = -pthread
 OSXCFLAGS   = -pthread -mmacosx-version-min=10.12 -DHAVE_VSNPRINTF -DHAVE_STRLCPY -DHAVE_SNPRINTF -D_U_= \
-              -DUSE_DISPATCHED_FOR_IFRECV
+              -DUSE_DISPATCHED_FOR_IFRECV -Wno-deprecated-non-prototype -Wno-return-type
 WINCFLAGS   = -DHAVE_STRUCT_TIMESPEC
 
 #flags for debugging: -D_DEBUG -g -Wall
@@ -20,7 +20,7 @@ OSXLIB   = -lpcap
 WINLIB   = -lwpcap -lpthreadGC2 -lpacket -lws2_32
 
 LINUXLIBPATH = -L../
-OSXLIBPATH   = -L../
+OSXLIBPATH   = -L../ -Wl,-w
 WINLIBPATH   = -L../../lib -L../../../../win32-pthreads \
 			   -L../../../packetNtx/Dll/Project
 
