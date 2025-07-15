@@ -324,7 +324,7 @@ struct timeval tv;						// maximum time the select() can block waiting for data
 		else
 		{
 			// In case of TCP, read the remaining of the packet from the socket
-			if ( (nread+= sock_recv(p->rmt_sockdata, *pkt_data, (*pkt_header)->caplen, SOCK_RECEIVEALL_YES, p->errbuf, PCAP_ERRBUF_SIZE)) == -1)
+			if ( (nread+= sock_recv(p->rmt_sockdata, (char *)*pkt_data, (*pkt_header)->caplen, SOCK_RECEIVEALL_YES, p->errbuf, PCAP_ERRBUF_SIZE)) == -1)
 				return -1;
 
 			// Checks if all the data has been read; if not, discard the data in excess
@@ -723,7 +723,7 @@ struct rpcap_openreply openreply;	// open reply message
 		hints.ai_family = PF_UNSPEC;
 		hints.ai_socktype = SOCK_STREAM;
 
-		if ( (ctrlport == NULL) || (ctrlport[0] == 0) )
+		if ( ctrlport[0] == 0 )
 		{
 			// the user chose not to specify the port
 			if (sock_initaddress(host, RPCAP_DEFAULT_NETPORT, &hints, &addrinfo, fp->errbuf, PCAP_ERRBUF_SIZE) == -1)
@@ -891,7 +891,8 @@ struct rpcap_startcapreq *startcapreq;		// start capture request message
 struct rpcap_startcapreply startcapreply;	// start capture reply message
 
 // Variables related to the buffer setting
-int res, itemp;
+int res;
+socklen_t itemp;
 int sockbufsize= 0;
 
 
@@ -1894,7 +1895,7 @@ void rpcap_createhdr(struct rpcap_header *header, uint8 type, uint16 value, uint
 	it discards the message body (i.e. it reads the remaining part of the message from the 
 	network and it discards it) so that the application is ready to receive a new message.
 */
-int rpcap_checkmsg(char *errbuf, SOCKET sock, struct rpcap_header *header, uint8 first, ...)
+int rpcap_checkmsg(char *errbuf, SOCKET sock, struct rpcap_header *header, int first, ...)
 {
 va_list ap;
 uint8 type;

@@ -1,3 +1,6 @@
+#ifndef _GENCODE_H_
+#define _GENCODE_H_
+
 /*
  * Copyright (c) 1990, 1991, 1992, 1993, 1994, 1995, 1996
  *	The Regents of the University of California.  All rights reserved.
@@ -337,3 +340,5 @@ void sappend(struct slist *, struct slist *);
 #define JF(b)  ((b)->ef.succ)
 
 extern int no_optimize;
+
+#endif /* _GENCODE_H_ */

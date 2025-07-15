@@ -21,8 +21,11 @@
  */
 
 #ifndef lint
-static const char rcsid[] _U_ =
+#ifndef SCANNER_RCSID_DEFINED
+#define SCANNER_RCSID_DEFINED
+static const char rcsid[] =
     "@(#) $Header: /tcpdump/master/libpcap/scanner.l,v 1.110.2.2 2008/02/06 10:21:47 guy Exp $ (LBL)";
+#endif
 #endif
 
 #ifdef HAVE_CONFIG_H
@@ -54,6 +57,7 @@ static const char rcsid[] _U_ =
 #endif /*INET6*/
 #include <pcap/namedb.h>
 #include "tokdefs.h"
+/* #include "grammar.c" - compile separately instead */
 
 #ifdef HAVE_OS_PROTO_H
 #include "os-proto.h"
@@ -373,8 +377,7 @@ tcp-urg			{ yylval.i = 0x20; return NUM; }
 .			{ bpf_error("illegal char '%c'", *yytext); }
 %%
 void
-lex_init(buf)
-	const char *buf;
+lex_init(const char *buf)
 {
 #ifdef FLEX_SCANNER
 	in_buffer = yy_scan_string(buf);
@@ -408,8 +411,7 @@ yywrap()
 
 /* Hex digit to integer. */
 static inline int
-xdtoi(c)
-	register int c;
+xdtoi(register int c)
 {
 	if (isdigit(c))
 		return c - '0';
@@ -424,8 +426,7 @@ xdtoi(c)
  * preceding 0x or 0 and uses hex or octal instead of decimal.
  */
 static int
-stoi(s)
-	char *s;
+stoi(char *s)
 {
 	int base = 10;
 	int n = 0;

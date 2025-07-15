@@ -5,7 +5,7 @@ include ../../../../vars.mk
 
 CFLAGS		= -DHAVE_REMOTE -DHAVE_SNPRINTF -D_GNU_SOURCE=1 -O3 -g
 LINUXCFLAGS = -pthread
-OSXCFLAGS   = -pthread -mmacosx-version-min=10.6 -DHAVE_VSNPRINTF -DHAVE_STRLCPY \
+OSXCFLAGS   = -pthread -mmacosx-version-min=10.12 -DHAVE_VSNPRINTF -DHAVE_STRLCPY -DHAVE_SNPRINTF -D_U_= \
               -DUSE_DISPATCHED_FOR_IFRECV
 WINCFLAGS   = -DHAVE_STRUCT_TIMESPEC
 
@@ -14,21 +14,23 @@ WINCFLAGS   = -DHAVE_STRUCT_TIMESPEC
 INCLUDE	= -I../
 WININCLUDE = -I../Win32/Include -I../../../Common -I../../../../win32-pthreads
 
-LINUXLIB = -lpcap -lcrypt -static
+LINUXLIB = -lpcap
 OSXLIB   = -lpcap
+
 WINLIB   = -lwpcap -lpthreadGC2 -lpacket -lws2_32
 
 LINUXLIBPATH = -L../
+OSXLIBPATH   = -L../
 WINLIBPATH   = -L../../lib -L../../../../win32-pthreads \
 			   -L../../../packetNtx/Dll/Project
 
 # Files that are needed to compile this project
 FILES = rpcapd.c daemon.c utils.c fileconf.c ../pcap-remote.c ../sockutils.c \
-		../pcap-new.c
+		../pcap-new.c ../optimize.c ../grammar.c ../scanner.c ../gencode.c ../nametoaddr.c ../inet.c ../bpf_dump.c ../bpf_image.c
 WINFILES = win32-svc.c win32-messages.o
 
 LINUXTARGET = rpcapd
-OSXTARGET   = rpcapd.osx  # XXX: should be just rpcapd
+OSXTARGET   = rpcapd
 WINTARGET   = rpcapd.exe
 
 # XXX: this is awful...I think this is why they invented autotools 25 years ago.
@@ -64,7 +66,13 @@ ifdef WINCC_VERSION
 endif
 endif
 
-executable: $(TARGET)
+executable: ../grammar.c ../scanner.c $(TARGET)
+
+../grammar.c: ../grammar.y
+	cd .. && yacc -d grammar.y && mv y.tab.c grammar.c && mv y.tab.h tokdefs.h
+
+../scanner.c: ../scanner.l ../tokdefs.h
+	cd .. && lex -t scanner.l > scanner.c
 
 # XXX: using object files would make incremental rebuilds faster...
 $(TARGET): $(FILES)

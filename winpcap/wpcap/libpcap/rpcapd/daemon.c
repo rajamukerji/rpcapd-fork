@@ -247,7 +247,7 @@ struct daemon_ctx *daemon_startcapture(SOCKET sockctrl, pthread_t *threaddata, c
 int daemon_endcapture(struct daemon_ctx *fp, pthread_t *threaddata, char *errbuf);
 
 int daemon_updatefilter(struct daemon_ctx *fp, uint32 plen);
-int daemon_unpackapplyfilter(struct daemon_ctx *fp, unsigned int *nread, int *plen, char *errbuf);
+int daemon_unpackapplyfilter(struct daemon_ctx *fp, unsigned int *nread, uint32 *plen, char *errbuf);
 
 int daemon_getstats(struct daemon_ctx *fp);
 int daemon_getstatsnopcap(SOCKET sockctrl, unsigned int ifdrops, unsigned int ifrecv, 
@@ -1476,7 +1476,7 @@ SOCKET sockctrl;
 
 
 
-int daemon_unpackapplyfilter(struct daemon_ctx *fp, unsigned int *nread, int *plen, char *errbuf)
+int daemon_unpackapplyfilter(struct daemon_ctx *fp, unsigned int *nread, uint32 *plen, char *errbuf)
 {
 struct rpcap_filter filter;
 struct rpcap_filterbpf_insn insn;
@@ -1753,8 +1753,13 @@ error:
 #define RPCAP_NETBUF_MAX_SIZE   65536
 #define DAEMON_USE_COND_TIMEDWAIT   0
 
+#ifdef __aarch64__
+#define rmb()   asm volatile("dmb ish":::"memory")
+#define wmb()   asm volatile("dmb ish":::"memory")
+#else
 #define rmb()   asm volatile("lfence":::"memory")
 #define wmb()   asm volatile("sfence":::"memory")
+#endif
 
 #define likely(x)   __builtin_expect((x), 1)
 #define unlikely(x) __builtin_expect((x), 0)

@@ -1,4 +1,4 @@
-OSXCC   = xcrun -sdk macosx10.8 clang
+OSXCC   = xcrun clang
 LINUXCC = gcc
 WINCC   = x86_64-w64-mingw32-gcc  # 64-bit
 

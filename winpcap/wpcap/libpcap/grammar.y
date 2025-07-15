@@ -21,8 +21,11 @@
  *
  */
 #ifndef lint
-static const char rcsid[] _U_ =
+#ifndef GRAMMAR_RCSID_DEFINED
+#define GRAMMAR_RCSID_DEFINED
+static const char rcsid[] =
     "@(#) $Header: /tcpdump/master/libpcap/grammar.y,v 1.99.2.2 2007/11/18 02:04:55 guy Exp $ (LBL)";
+#endif
 #endif
 
 #ifdef HAVE_CONFIG_H
