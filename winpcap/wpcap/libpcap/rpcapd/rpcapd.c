@@ -105,7 +105,9 @@ rpcapd_log_init(const char *argv0, int also_stderr)
 #else
     int flags = LOG_CONS | LOG_PID;
     if (also_stderr) {
+#ifndef __sun
         flags |= LOG_PERROR;
+#endif
     }
     setlogmask(LOG_UPTO(LOG_NOTICE));
     openlog("rpcapd", flags, LOG_DAEMON);
@@ -125,7 +127,7 @@ log_warn(const char *fmt, ...)
         ReportEvent(event_source, EVENTLOG_WARNING_TYPE, 0, MSG_WARNING, NULL,
                     1, 0, &pmsg, NULL);
 #else
-        vsyslog(LOG_MAKEPRI(LOG_DAEMON, LOG_WARNING), fmt, ap);
+        vsyslog(LOG_WARNING, fmt, ap);
 #endif
     }
     else {
@@ -148,7 +150,7 @@ log_info(const char *fmt, ...)
         ReportEvent(event_source, EVENTLOG_INFORMATION_TYPE, 0, MSG_INFO, NULL,
                     1, 0, &pmsg, NULL);
 #else
-        vsyslog(LOG_MAKEPRI(LOG_DAEMON, LOG_INFO), fmt, ap);
+        vsyslog(LOG_INFO, fmt, ap);
 #endif
     }
     else {

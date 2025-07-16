@@ -34,12 +34,15 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <signal.h>
 #include <pcap.h>		// for PCAP_ERRBUF_SIZE
 
 #ifdef linux
 #include <netinet/in.h>
+#ifdef __linux__
 #include <linux/if_packet.h>
+#endif
 #endif
 
 #include "rpcapd.h"

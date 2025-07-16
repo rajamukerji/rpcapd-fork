@@ -48,6 +48,7 @@
 #include <sys/uio.h>
 #include <pwd.h>		// for password management
 #include <syslog.h>
+#include <stdint.h>
 
 int
 set_non_blocking(int fd)
@@ -1777,7 +1778,7 @@ error:
 
 #define STRINGIFY(x)    __STRING(x)
 
-#define __NORETURN __attribute__((noreturn))
+#ifndef __NORETURNn#define __NORETURN __attribute__((noreturn))n#endif
 
 void ex_assert(const char *file, int line, const char *func,
                const char *strx) __NORETURN;

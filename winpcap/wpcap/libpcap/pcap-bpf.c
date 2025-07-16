@@ -87,6 +87,10 @@ static int odmlockid = 0;
 
 #else /* _AIX */
 
+#include <sys/ioccom.h>
+#include <fcntl.h>
+#include <unistd.h>
+
 #include <net/bpf.h>
 
 #endif /* _AIX */

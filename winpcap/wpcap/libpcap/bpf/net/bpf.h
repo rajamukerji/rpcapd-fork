@@ -252,7 +252,7 @@ extern void bpf_tap();
 extern void bpf_mtap();
 #else
 #if __STDC__
-extern u_int bpf_filter(struct bpf_insn *, u_char *, u_int, u_int);
+extern u_int bpf_filter(const struct bpf_insn *, const u_char *, u_int, u_int);
 #endif
 #endif
 
