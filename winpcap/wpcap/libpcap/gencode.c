@@ -20,7 +20,7 @@
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
 #ifndef lint
-static const char rcsid[] _U_ =
+static const char rcsid[] __attribute__((unused)) =
     "@(#) $Header: /tcpdump/master/libpcap/gencode.c,v 1.290.2.16 2008-09-22 20:16:01 guy Exp $ (LBL)";
 #endif
 
