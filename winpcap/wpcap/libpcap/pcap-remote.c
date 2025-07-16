@@ -723,7 +723,7 @@ struct rpcap_openreply openreply;	// open reply message
 		hints.ai_family = PF_UNSPEC;
 		hints.ai_socktype = SOCK_STREAM;
 
-		if ( (ctrlport == NULL) || (ctrlport[0] == 0) )
+		if (ctrlport[0] == 0)
 		{
 			// the user chose not to specify the port
 			if (sock_initaddress(host, RPCAP_DEFAULT_NETPORT, &hints, &addrinfo, fp->errbuf, PCAP_ERRBUF_SIZE) == -1)
