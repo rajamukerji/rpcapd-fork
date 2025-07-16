@@ -40,6 +40,15 @@ Then make in the top-level folder with the OSX platform:
 
     make PLATFORM=osx
 
+### Solaris
+To build on Solaris, first install libpcap and gcc (if not already available):
+
+    pkg install developer/gcc-13 system/library/libpcap
+
+Then make in the top-level folder with the Solaris platform:
+
+    make PLATFORM=solaris
+
 ### Windows
 (Optional) To build the windows binary, install x86_64-w64-mingw32-gcc (or
 edit vars.mk).  Running `make` will output rpcapd.exe in the rpcapd directory
