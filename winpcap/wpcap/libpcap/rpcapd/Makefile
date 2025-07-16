@@ -26,7 +26,7 @@ WINLIBPATH   = -L../../lib -L../../../../win32-pthreads \
 
 # Files that are needed to compile this project
 FILES = rpcapd.c daemon.c utils.c fileconf.c ../pcap-remote.c ../sockutils.c \
-		../pcap-new.c ../optimize.c ../grammar.c ../scanner.c ../gencode.c ../nametoaddr.c ../inet.c ../bpf_dump.c ../bpf_image.c
+		../pcap-new.c ../pcap.c ../savefile.c ../optimize.c ../grammar.c ../scanner.c ../gencode.c ../nametoaddr.c ../inet.c ../bpf_dump.c ../bpf_image.c
 WINFILES = win32-svc.c win32-messages.o
 
 LINUXTARGET = rpcapd

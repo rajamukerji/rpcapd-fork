@@ -32,7 +32,7 @@
  */
 
 #ifndef lint
-static const char rcsid[] _U_ =
+static const char rcsid[] __attribute__((unused)) =
     "@(#) $Header: /tcpdump/master/libpcap/pcap.c,v 1.112.2.12 2008-09-22 20:16:01 guy Exp $ (LBL)";
 #endif
 
@@ -1022,7 +1022,7 @@ pcap_strerror(int errnum)
 #ifdef HAVE_STRERROR
 	return (strerror(errnum));
 #else
-	extern int sys_nerr;
+	extern const int sys_nerr;
 	extern const char *const sys_errlist[];
 	static char ebuf[15+10+1];
 

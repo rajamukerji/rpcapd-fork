@@ -29,7 +29,7 @@
  */
 
 #ifndef lint
-static const char rcsid[] _U_ =
+static const char rcsid[] __attribute__((unused)) =
     "@(#) $Header: /tcpdump/master/libpcap/savefile.c,v 1.168.2.10 2008-10-06 15:38:39 gianluca Exp $ (LBL)";
 #endif
 
