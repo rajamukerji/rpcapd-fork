@@ -127,7 +127,11 @@ log_warn(const char *fmt, ...)
         ReportEvent(event_source, EVENTLOG_WARNING_TYPE, 0, MSG_WARNING, NULL,
                     1, 0, &pmsg, NULL);
 #else
+#ifdef __sun
         vsyslog(LOG_WARNING, fmt, ap);
+#else
+        vsyslog(LOG_MAKEPRI(LOG_DAEMON, LOG_WARNING), fmt, ap);
+#endif
 #endif
     }
     else {
@@ -150,7 +154,11 @@ log_info(const char *fmt, ...)
         ReportEvent(event_source, EVENTLOG_INFORMATION_TYPE, 0, MSG_INFO, NULL,
                     1, 0, &pmsg, NULL);
 #else
+#ifdef __sun
         vsyslog(LOG_INFO, fmt, ap);
+#else
+        vsyslog(LOG_MAKEPRI(LOG_DAEMON, LOG_INFO), fmt, ap);
+#endif
 #endif
     }
     else {

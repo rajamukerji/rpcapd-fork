@@ -1778,7 +1778,9 @@ error:
 
 #define STRINGIFY(x)    __STRING(x)
 
-#ifndef __NORETURNn#define __NORETURN __attribute__((noreturn))n#endif
+#ifndef __NORETURN
+#define __NORETURN __attribute__((noreturn))
+#endif
 
 void ex_assert(const char *file, int line, const char *func,
                const char *strx) __NORETURN;

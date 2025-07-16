@@ -60,7 +60,7 @@ static const char rcsid[] _U_ =
 #include "os-proto.h"
 #endif
 
-#if defined(AF_PACKET) #ifdef AF_PACKET#ifdef AF_PACKET defined(__linux__)
+#if defined(AF_PACKET) && defined(__linux__)
 # ifdef __Lynx__
 #  include <netpacket/if_packet.h>	/* LynxOS */
 # else
@@ -111,7 +111,7 @@ get_sa_len(struct sockaddr *addr)
 		return (sizeof (struct sockaddr_in6));
 #endif
 
-#if defined(AF_PACKET) #ifdef AF_PACKET#ifdef AF_PACKET defined(__linux__)
+#if defined(AF_PACKET) && defined(__linux__)
 	case AF_PACKET:
 		return (sizeof (struct sockaddr_ll));
 #endif
