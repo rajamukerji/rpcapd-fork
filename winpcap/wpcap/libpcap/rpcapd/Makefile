@@ -32,6 +32,7 @@ WINFILES = win32-svc.c win32-messages.o
 LINUXTARGET = rpcapd
 OSXTARGET   = rpcapd
 WINTARGET   = rpcapd.exe
+SOLARISTARGET = rpcapd
 
 # XXX: this is awful...I think this is why they invented autotools 25 years ago.
 ifeq ($(PLATFORM), windows)
@@ -58,9 +59,27 @@ else ifeq ($(PLATFORM), osx)
 	LIB += $(OSXLIB)
 	LIBPATH += $(OSXLIBPATH)
 	TARGET = $(OSXTARGET)
+else ifeq ($(PLATFORM), solaris)
+	CC = $(SOLARISCC)
+	FILES += $(SOLARISFILES)
+	CFLAGS += $(SOLARISCFLAGS)
+	INCLUDE += $(SOLARISINCLUDE)
+	LIB += $(SOLARISLIB)
+	LIBPATH += $(SOLARISLIBPATH)
+	TARGET = $(SOLARISTARGET)
 else
+# Detect platform if not specified
+UNAME_S := $(shell uname -s)
 default:
+ifeq ($(UNAME_S),Linux)
 	$(MAKE) PLATFORM=linux executable
+else ifeq ($(UNAME_S),Darwin)
+	$(MAKE) PLATFORM=osx executable
+else ifeq ($(UNAME_S),SunOS)
+	$(MAKE) PLATFORM=solaris executable
+else
+	$(MAKE) PLATFORM=linux executable
+endif
 ifdef WINCC_VERSION
 	$(MAKE) PLATFORM=windows executable
 endif
@@ -69,10 +88,10 @@ endif
 executable: ../grammar.c ../scanner.c $(TARGET)
 
 ../grammar.c: ../grammar.y
-	cd .. && yacc -d grammar.y && mv y.tab.c grammar.c && mv y.tab.h tokdefs.h
+	cd .. && yacc -d -p pcap_ grammar.y && mv y.tab.c grammar.c && mv y.tab.h tokdefs.h
 
 ../scanner.c: ../scanner.l ../tokdefs.h
-	cd .. && lex -t scanner.l > scanner.c
+	cd .. && lex -P pcap_ -t scanner.l > scanner.c
 
 # XXX: using object files would make incremental rebuilds faster...
 $(TARGET): $(FILES)
